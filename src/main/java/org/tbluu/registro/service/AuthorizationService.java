@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.tbluu.registro.repository.UserRepository;
 
-@Service
+@Service //Ponte entre o banco de Dados e o spring security para o login
 public class AuthorizationService implements UserDetailsService {
 
     private final UserRepository userRepository;

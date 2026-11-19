@@ -13,7 +13,7 @@ import org.tbluu.registro.repository.UserRepository;
 
 import java.io.IOException;
 
-@Component
+@Component //Intercepta todas as requisições do cliente
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final UserRepository userRepository;
@@ -25,9 +25,10 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    @Override  //
+    protected void doFilterInternal(HttpServletRequest request /*requisição do cliente*/
+            , HttpServletResponse response /*resposta que será devolvida*/,
+            FilterChain filterChain/* */) throws ServletException, IOException {
         //Recupera o token do cabeçalho da requisição
         var token = recuperarToken(request);
 
@@ -37,12 +38,14 @@ public class SecurityFilter extends OncePerRequestFilter {
             UserDetails user = userRepository.findByEmail(email);
 
             if (user != null) {
+                //null porque a senha ja foi autenticada no login
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        filterChain.doFilter(request, response); //Chama o próximo filtro da corrente (segue o fluxo normal da requisição)
+        //Chama o próximo filtro da corrente (segue o fluxo normal da requisição, sem ele o programa quebra)
+        filterChain.doFilter(request, response);
     }
 
     private String recuperarToken(HttpServletRequest request) {

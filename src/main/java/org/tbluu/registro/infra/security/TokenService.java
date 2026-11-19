@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-@Service
+@Service //Classe onde os Tokens são gerados
 public class TokenService {
 
     @Value("${api.security.token.secret}") //Injeta o valor definido no application.properties

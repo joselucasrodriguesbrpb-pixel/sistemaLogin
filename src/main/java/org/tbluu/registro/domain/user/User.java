@@ -22,6 +22,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "users")
+//implementando a interface UserDetails para a comunicação da entidade com o Spring Security
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
